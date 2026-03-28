@@ -22,18 +22,25 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [influencers, sponsors, vendors] = await Promise.all([
-          getCollection('influencers'),
-          getCollection('sponsors'),
-          getCollection('vendors'),
-        ]);
+        const fetchCount = async (collectionName) => {
+          try {
+            const data = await getCollection(collectionName);
+            return data.length;
+          } catch (e) {
+            console.warn(`Could not fetch ${collectionName}:`, e.message);
+            return 0;
+          }
+        };
+
+        const influencersCount = await fetchCount('influencers');
+        const sponsorsCount = await fetchCount('sponsors');
+        const vendorsCount = await fetchCount('vendors');
+
         setStats({
-          influencers: influencers.length,
-          sponsors: sponsors.length,
-          vendors: vendors.length,
+          influencers: influencersCount,
+          sponsors: sponsorsCount,
+          vendors: vendorsCount,
         });
-      } catch (err) {
-        console.error('Error fetching stats:', err);
       } finally {
         setLoading(false);
       }

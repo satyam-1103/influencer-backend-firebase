@@ -459,7 +459,8 @@ input, textarea, select {
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .data-table {
@@ -489,6 +490,7 @@ input, textarea, select {
   color: var(--text-primary);
   border-bottom: 1px solid var(--border);
   vertical-align: middle;
+  white-space: nowrap;
 }
 
 .data-table tbody tr:last-child td { border-bottom: none; }

@@ -13,6 +13,7 @@ const Influencers = () => {
     setError('');
     try {
       const data = await getCollection('influencers');
+      console.log(data)
       setInfluencers(data);
     } catch (err) {
       setError('Failed to load influencers. Check your Firebase config.');
@@ -75,7 +76,14 @@ const Influencers = () => {
                 <th>Category</th>
                 <th>Followers</th>
                 <th>Platform</th>
+                <th>Email</th>
                 <th>Contact</th>
+                <th>Niche</th>
+                <th>Social Link</th>
+                <th>Fee Consent</th>
+                <th>Referred By Sponsor</th>
+                <th>Referal Code</th>
+                <th>Why Win</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -85,12 +93,19 @@ const Influencers = () => {
                   <td className="row-num">{index + 1}</td>
                   <td className="name-cell">
                     <div className="avatar-chip">{(item.name || 'N')[0]}</div>
-                    {item.name || '—'}
+                    {item.full_name || '—'}
                   </td>
-                  <td><span className="badge badge-gold">{item.category || '—'}</span></td>
-                  <td>{item.followers ? Number(item.followers).toLocaleString() : '—'}</td>
+                  <td><span className="badge badge-gold">{item.award_category || '—'}</span></td>
+                  <td>{item.follower_range ? item.follower_range : '—'}</td>
                   <td>{item.platform || '—'}</td>
-                  <td>{item.contact || item.email || '—'}</td>
+                  <td>{item.email || '—'}</td>
+                  <td>{item.phone || '—'}</td>
+                  <td>{item.niche || '—'}</td>
+                  <td>{item.profile_link || '—'}</td>
+                  <td>{item.fee_consent || 'No'}</td>
+                  <td>{item.is_referred ? 'Yes' : 'No'}</td>
+                  <td>{item.referral_code || '—'}</td>
+                  <td>{item.why_win || '—'}</td>
                   <td>
                     <span className={`status-dot ${item.status === 'inactive' ? 'inactive' : 'active'}`}>
                       {item.status || 'Active'}
