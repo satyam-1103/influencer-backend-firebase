@@ -25,7 +25,7 @@ const Sponsors = () => {
   useEffect(() => { fetchData(); }, []);
 
   const filtered = sponsors.filter((item) =>
-    (item.company || '').toLowerCase().includes(search.toLowerCase()) ||
+    (item.company_name || '').toLowerCase().includes(search.toLowerCase()) ||
     (item.industry || '').toLowerCase().includes(search.toLowerCase())
   );
 
@@ -73,10 +73,11 @@ const Sponsors = () => {
                 <th>#</th>
                 <th>Company</th>
                 <th>Industry</th>
-                <th>Budget</th>
+                <th>Type</th>
+                <th>Amount</th>
                 <th>Contact Person</th>
                 <th>Email</th>
-                <th>Status</th>
+                <th>Phone</th>
               </tr>
             </thead>
             <tbody>
@@ -84,18 +85,15 @@ const Sponsors = () => {
                 <tr key={item.id}>
                   <td className="row-num">{index + 1}</td>
                   <td className="name-cell">
-                    <div className="avatar-chip purple">{(item.company || 'S')[0]}</div>
-                    {item.company || '—'}
+                    <div className="avatar-chip purple">{(item.company_name || 'C')[0]?.toUpperCase()}</div>
+                    {item.company_name || '—'}
                   </td>
                   <td><span className="badge badge-purple">{item.industry || '—'}</span></td>
-                  <td>{item.budget ? `₹${Number(item.budget).toLocaleString()}` : '—'}</td>
-                  <td>{item.contactPerson || item.contact || '—'}</td>
+                  <td>{item.sponsorship_type || '—'}</td>
+                  <td>{item.amount ? `₹${Number(item.amount).toLocaleString()}` : '—'}</td>
+                  <td>{item.contact_person || '—'}</td>
                   <td>{item.email || '—'}</td>
-                  <td>
-                    <span className={`status-dot ${item.status === 'inactive' ? 'inactive' : 'active'}`}>
-                      {item.status || 'Active'}
-                    </span>
-                  </td>
+                  <td>{item.phone || '—'}</td>
                 </tr>
               ))}
             </tbody>

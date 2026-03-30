@@ -25,9 +25,9 @@ const Vendors = () => {
   useEffect(() => { fetchData(); }, []);
 
   const filtered = vendors.filter((item) =>
-    (item.name || '').toLowerCase().includes(search.toLowerCase()) ||
-    (item.service || item.product || '').toLowerCase().includes(search.toLowerCase()) ||
-    (item.location || '').toLowerCase().includes(search.toLowerCase())
+    (item.vendor_name || '').toLowerCase().includes(search.toLowerCase()) ||
+    (item.business_name || '').toLowerCase().includes(search.toLowerCase()) ||
+    (item.service_type || '').toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -42,7 +42,7 @@ const Vendors = () => {
             <Search size={16} />
             <input
               type="text"
-              placeholder="Search by name, service, or location..."
+              placeholder="Search by vendor, business, or service..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -73,11 +73,12 @@ const Vendors = () => {
               <tr>
                 <th>#</th>
                 <th>Vendor Name</th>
-                <th>Product / Service</th>
-                <th>Location</th>
-                <th>Contact</th>
+                <th>Business Name</th>
+                <th>Service Type</th>
+                <th>Phone</th>
                 <th>Email</th>
-                <th>Status</th>
+                <th>Instagram</th>
+                <th>Amount</th>
               </tr>
             </thead>
             <tbody>
@@ -85,18 +86,15 @@ const Vendors = () => {
                 <tr key={item.id}>
                   <td className="row-num">{index + 1}</td>
                   <td className="name-cell">
-                    <div className="avatar-chip green">{(item.name || 'V')[0]}</div>
-                    {item.name || '—'}
+                    <div className="avatar-chip green">{(item.vendor_name || 'V')[0]?.toUpperCase()}</div>
+                    {item.vendor_name || '—'}
                   </td>
-                  <td><span className="badge badge-green">{item.service || item.product || '—'}</span></td>
-                  <td>{item.location || '—'}</td>
-                  <td>{item.contact || item.phone || '—'}</td>
+                  <td>{item.business_name || '—'}</td>
+                  <td><span className="badge badge-green">{item.service_type || '—'}</span></td>
+                  <td>{item.phone || '—'}</td>
                   <td>{item.email || '—'}</td>
-                  <td>
-                    <span className={`status-dot ${item.status === 'inactive' ? 'inactive' : 'active'}`}>
-                      {item.status || 'Active'}
-                    </span>
-                  </td>
+                  <td>{item.instagram_page || '—'}</td>
+                  <td>{item.amount ? `₹${Number(item.amount).toLocaleString()}` : '—'}</td>
                 </tr>
               ))}
             </tbody>
