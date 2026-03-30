@@ -465,6 +465,7 @@ input, textarea, select {
 
 .data-table {
   width: 100%;
+  min-width: 1000px;
   border-collapse: collapse;
 }
 
