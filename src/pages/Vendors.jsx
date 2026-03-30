@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getCollection } from '../firebase/firestore';
-import { Store, Search, RefreshCw } from 'lucide-react';
+import { Store, Search, RefreshCw, Download } from 'lucide-react';
+import { exportToCsv } from '../utils/exportCsv';
 
 const Vendors = () => {
   const [vendors, setVendors] = useState([]);
@@ -30,6 +31,19 @@ const Vendors = () => {
     (item.service_type || '').toLowerCase().includes(search.toLowerCase())
   );
 
+  const handleExport = () => {
+    const headers = [
+      { label: 'Vendor Name', key: 'vendor_name' },
+      { label: 'Business Name', key: 'business_name' },
+      { label: 'Service Type', key: 'service_type' },
+      { label: 'Phone', key: 'phone' },
+      { label: 'Email', key: 'email' },
+      { label: 'Instagram', key: 'instagram_page' },
+      { label: 'Amount', key: 'amount' },
+    ];
+    exportToCsv('Vendors', filtered, headers);
+  };
+
   return (
     <div className="page-content">
       <div className="page-header">
@@ -47,6 +61,9 @@ const Vendors = () => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
+          <button className="btn-icon" onClick={handleExport} title="Export CSV">
+            <Download size={16} />
+          </button>
           <button className="btn-icon" onClick={fetchData} title="Refresh">
             <RefreshCw size={16} />
           </button>

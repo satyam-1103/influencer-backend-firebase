@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getCollection } from '../firebase/firestore';
-import { Users, Search, RefreshCw } from 'lucide-react';
+import { Users, Search, RefreshCw, Download } from 'lucide-react';
+import { exportToCsv } from '../utils/exportCsv';
 
 const Influencers = () => {
   const [influencers, setInfluencers] = useState([]);
@@ -30,6 +31,25 @@ const Influencers = () => {
     (item.category || '').toLowerCase().includes(search.toLowerCase())
   );
 
+  const handleExport = () => {
+    const headers = [
+      { label: 'Name', key: 'full_name' },
+      { label: 'Category', key: 'award_category' },
+      { label: 'Followers Range', key: 'follower_range' },
+      { label: 'Platform', key: 'platform' },
+      { label: 'Email', key: 'email' },
+      { label: 'Contact', key: 'phone' },
+      { label: 'Niche', key: 'niche' },
+      { label: 'Social Link', key: 'profile_link' },
+      { label: 'Fee Consent', key: 'fee_consent' },
+      { label: 'Referred By Sponsor', key: 'is_referred' },
+      { label: 'Referral Code', key: 'referral_code' },
+      { label: 'Why Win', key: 'why_win' },
+      { label: 'Status', key: 'status' }
+    ];
+    exportToCsv('Influencers', filtered, headers);
+  };
+
   return (
     <div className="page-content">
       <div className="page-header">
@@ -47,6 +67,9 @@ const Influencers = () => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
+          <button className="btn-icon" onClick={handleExport} title="Export CSV">
+            <Download size={16} />
+          </button>
           <button className="btn-icon" onClick={fetchData} title="Refresh">
             <RefreshCw size={16} />
           </button>

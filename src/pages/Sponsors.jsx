@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getCollection } from '../firebase/firestore';
-import { Handshake, Search, RefreshCw } from 'lucide-react';
+import { Handshake, Search, RefreshCw, Download } from 'lucide-react';
+import { exportToCsv } from '../utils/exportCsv';
 
 const Sponsors = () => {
   const [sponsors, setSponsors] = useState([]);
@@ -29,6 +30,20 @@ const Sponsors = () => {
     (item.industry || '').toLowerCase().includes(search.toLowerCase())
   );
 
+  const handleExport = () => {
+    const headers = [
+      { label: 'Company Name', key: 'company_name' },
+      { label: 'Industry', key: 'industry' },
+      { label: 'Sponsorship Type', key: 'sponsorship_type' },
+      { label: 'Amount', key: 'amount' },
+      { label: 'Contact Person', key: 'contact_person' },
+      { label: 'Email', key: 'email' },
+      { label: 'Phone', key: 'phone' },
+      { label: 'Message', key: 'message' },
+    ];
+    exportToCsv('Sponsors', filtered, headers);
+  };
+
   return (
     <div className="page-content">
       <div className="page-header">
@@ -46,6 +61,9 @@ const Sponsors = () => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
+          <button className="btn-icon" onClick={handleExport} title="Export CSV">
+            <Download size={16} />
+          </button>
           <button className="btn-icon" onClick={fetchData} title="Refresh">
             <RefreshCw size={16} />
           </button>
